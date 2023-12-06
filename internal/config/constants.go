@@ -15,4 +15,6 @@ var (
 	BaseChainID            = big.NewInt(8453)
 	BaseGoerliChainID      = big.NewInt(84531)
 	BaseSepoliaChainID     = big.NewInt(84532)
+	LyraChainId						 = big.NewInt(957)
+	LyraSepoliaChainId	   = big.NewInt(901)
 )
