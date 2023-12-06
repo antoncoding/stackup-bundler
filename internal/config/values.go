@@ -5,7 +5,8 @@ import (
 	"math/big"
 	"strings"
 	"time"
-
+	"os"
+	"strconv"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
@@ -158,7 +159,16 @@ func GetValues() *Values {
 		panic("Fatal config error: erc4337_bundler_otel_service_name is set without a collector URL")
 	}
 
-	// Validate Alternative mempool variables
+
+	if herokuPort := os.Getenv("PORT"); herokuPort != "" {
+		portValue, err := strconv.Atoi(herokuPort) // Convert PORT value from string to integer
+		if err == nil {
+				viper.Set("erc4337_bundler_port", portValue)
+		} else {
+				fmt.Println("Warning: Could not convert PORT value to integer:", err)
+		}
+}
+
 	if viper.IsSet("erc4337_bundler_alt_mempool_ids") &&
 		variableNotSetOrIsNil("erc4337_bundler_alt_mempool_ipfs_gateway") {
 		panic("Fatal config error: erc4337_bundler_alt_mempool_ids is set without specifying an IPFS gateway")
